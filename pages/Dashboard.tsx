@@ -173,19 +173,19 @@ const Dashboard: React.FC = () => {
         <p className="text-slate-500 dark:text-slate-400">Visão geral das métricas do negócio</p>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+      <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4 lg:gap-6">
         {metrics.map((metric, idx) => (
-          <div key={idx} className="bg-white dark:bg-slate-800 p-6 rounded-2xl border border-slate-100 dark:border-slate-800 shadow-sm">
+          <div key={idx} className="bg-white dark:bg-slate-800 p-5 lg:p-6 rounded-2xl border border-slate-100 dark:border-slate-800 shadow-sm">
             <div className="flex justify-between items-start mb-4">
-              <div>
-                <p className="text-xs font-bold text-slate-400 uppercase tracking-wider mb-1">{metric.label}</p>
-                <h3 className="text-3xl font-bold dark:text-white">{metric.value}</h3>
+              <div className="overflow-hidden">
+                <p className="text-[10px] lg:text-xs font-bold text-slate-400 uppercase tracking-wider mb-1 truncate">{metric.label}</p>
+                <h3 className="text-2xl lg:text-3xl font-bold dark:text-white truncate">{metric.value}</h3>
               </div>
-              <div className={`p-2 rounded-lg ${metric.color}`}>
+              <div className={`p-2 rounded-lg shrink-0 ${metric.color}`}>
                 <span className="material-icons-round">{metric.icon}</span>
               </div>
             </div>
-            <div className="flex items-center text-emerald-500 text-sm font-semibold">
+            <div className="flex items-center text-emerald-500 text-xs font-semibold">
               <span className="material-icons-round text-sm mr-1">arrow_upward</span>
               +0% vs. mês anterior
             </div>
@@ -203,8 +203,8 @@ const Dashboard: React.FC = () => {
                   key={filter}
                   onClick={() => setRevenueFilter(filter)}
                   className={`px-3 py-1 text-xs font-bold rounded-md transition-all ${revenueFilter === filter
-                      ? 'bg-white dark:bg-slate-600 text-primary shadow-sm'
-                      : 'text-slate-400 hover:text-slate-600 dark:hover:text-slate-300'
+                    ? 'bg-white dark:bg-slate-600 text-primary shadow-sm'
+                    : 'text-slate-400 hover:text-slate-600 dark:hover:text-slate-300'
                     }`}
                 >
                   {filter}

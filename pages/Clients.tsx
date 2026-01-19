@@ -452,7 +452,7 @@ const ClientsPage: React.FC = () => {
       {/* New Client Modal */}
       {isNewClientModalOpen && (
         <div className="fixed inset-0 z-[70] flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm animate-in fade-in duration-300">
-          <div className="bg-white dark:bg-slate-900 w-full max-w-xl overflow-hidden rounded-2xl shadow-2xl flex flex-col">
+          <div className="bg-white dark:bg-slate-900 w-full max-w-xl max-h-[90vh] overflow-hidden rounded-2xl shadow-2xl flex flex-col">
             <div className="px-6 py-4 border-b border-slate-100 dark:border-slate-800 flex justify-between items-center bg-slate-50/50 dark:bg-slate-800/50">
               <h3 className="text-lg font-bold dark:text-white">{editingClient ? 'Editar Cliente' : 'Cadastrar Novo Cliente'}</h3>
               <button
@@ -478,7 +478,7 @@ const ClientsPage: React.FC = () => {
               </button>
             </div>
 
-            <form onSubmit={handleCreateClient} className="p-6 space-y-4">
+            <form onSubmit={handleCreateClient} className="p-6 space-y-4 overflow-y-auto custom-scrollbar">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div className="col-span-1 md:col-span-2 space-y-1">
                   <label className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Nome Completo</label>
@@ -647,7 +647,7 @@ const ClientsPage: React.FC = () => {
       {/* Client Modal */}
       {selectedClient && (
         <div className="fixed inset-0 z-[60] flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm animate-in fade-in duration-300">
-          <div className="bg-white dark:bg-slate-900 w-full max-w-6xl max-h-[90vh] overflow-hidden rounded-2xl shadow-2xl flex flex-col">
+          <div className="bg-white dark:bg-slate-900 w-full max-w-6xl max-h-[95vh] lg:max-h-[90vh] overflow-hidden rounded-2xl shadow-2xl flex flex-col">
             <div className="px-8 py-6 border-b border-slate-100 dark:border-slate-800 flex justify-between items-center bg-slate-50/50 dark:bg-slate-800/50">
               <h3 className="text-2xl font-bold dark:text-white">Detalhes do Cliente</h3>
               <button onClick={() => setSelectedClient(null)} className="text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 transition-colors">
@@ -827,7 +827,7 @@ const ClientsPage: React.FC = () => {
       {/* New Invoice Modal */}
       {isNewInvoiceModalOpen && (
         <div className="fixed inset-0 z-[80] flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm animate-in fade-in duration-300">
-          <div className="bg-white dark:bg-slate-900 w-full max-w-lg rounded-2xl shadow-2xl overflow-hidden">
+          <div className="bg-white dark:bg-slate-900 w-full max-w-lg max-h-[90vh] rounded-2xl shadow-2xl overflow-hidden flex flex-col">
             <div className="px-8 py-6 border-b border-slate-100 dark:border-slate-800 flex justify-between items-center bg-slate-50/50 dark:bg-slate-800/50">
               <h3 className="text-2xl font-bold dark:text-white">{editingInvoice ? 'Editar Fatura' : 'Nova Fatura'}</h3>
               <button
@@ -841,7 +841,7 @@ const ClientsPage: React.FC = () => {
               </button>
             </div>
 
-            <form onSubmit={handleCreateInvoice} className="p-8 space-y-6">
+            <form onSubmit={handleCreateInvoice} className="p-8 space-y-6 overflow-y-auto custom-scrollbar">
               <div className="grid grid-cols-2 gap-6">
                 <div className="space-y-1.5">
                   <label className="text-sm font-semibold text-slate-700 dark:text-slate-300">Data Vencimento</label>
@@ -942,7 +942,7 @@ const ClientsPage: React.FC = () => {
       {/* Receive Payment Modal */}
       {isPayModalOpen && selectedInvoiceForPay && (
         <div className="fixed inset-0 z-[70] flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm animate-in fade-in duration-300">
-          <div className="bg-white dark:bg-slate-900 w-full max-w-md rounded-2xl shadow-2xl overflow-hidden">
+          <div className="bg-white dark:bg-slate-900 w-full max-w-md max-h-[90vh] rounded-2xl shadow-2xl overflow-hidden flex flex-col">
             <div className="px-6 py-4 border-b border-slate-100 dark:border-slate-800 flex justify-between items-center bg-slate-50/50 dark:bg-slate-800/50">
               <div>
                 <h3 className="text-lg font-bold dark:text-white">Receber Pagamento</h3>
