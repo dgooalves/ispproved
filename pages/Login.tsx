@@ -93,7 +93,7 @@ const Login: React.FC = () => {
                 </form>
 
                 <div className="mt-8 text-center text-xs text-slate-400">
-                    &copy; 2024 ISP Manager Pro. Todos os direitos reservados. Desenvolvido por Diego Alves.
+                    &copy; {new Date().getFullYear()} ISP Manager Pro. Todos os direitos reservados. Desenvolvido por Diego Alves.
                 </div>
             </div>
         </div>
