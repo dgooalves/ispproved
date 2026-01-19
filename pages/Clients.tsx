@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { supabase } from '../supabase';
-import { Client, City, Invoice } from '../types';
+import { Client, City, Invoice, Plan } from '../types';
 
 import { useLocation, useNavigate } from 'react-router-dom';
 
@@ -9,6 +9,7 @@ const ClientsPage: React.FC = () => {
   const navigate = useNavigate();
   const [clients, setClients] = useState<Client[]>([]);
   const [cities, setCities] = useState<City[]>([]);
+  const [plans, setPlans] = useState<Plan[]>([]);
   const [filterCity, setFilterCity] = useState<string>('TODAS');
   const [selectedClient, setSelectedClient] = useState<Client | null>(null);
   const [clientInvoices, setClientInvoices] = useState<Invoice[]>([]);
@@ -55,6 +56,7 @@ const ClientsPage: React.FC = () => {
 
   useEffect(() => {
     fetchCities();
+    fetchPlans();
   }, []);
 
   useEffect(() => {
@@ -86,6 +88,16 @@ const ClientsPage: React.FC = () => {
       setCities(data);
       if (!editingClient && !newClient.city && data.length > 0) {
         setNewClient(prev => ({ ...prev, city: data[0].name }));
+      }
+    }
+  };
+
+  const fetchPlans = async () => {
+    const { data } = await supabase.from('plans').select('*').order('name');
+    if (data) {
+      setPlans(data);
+      if (!editingClient && !newClient.plan && data.length > 0) {
+        setNewClient(prev => ({ ...prev, plan: data[0].name }));
       }
     }
   };
@@ -279,7 +291,7 @@ const ClientsPage: React.FC = () => {
         contact: '',
         email: '',
         city: cities.length > 0 ? cities[0].name : '',
-        plan: '30Mb',
+        plan: plans.length > 0 ? plans[0].name : '30Mb',
       });
       fetchClients();
     }
@@ -469,7 +481,7 @@ const ClientsPage: React.FC = () => {
                     contact: '',
                     email: '',
                     city: cities.length > 0 ? cities[0].name : '',
-                    plan: '30Mb',
+                    plan: plans.length > 0 ? plans[0].name : '30Mb',
                   });
                 }}
                 className="text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 transition-colors"
@@ -600,10 +612,10 @@ const ClientsPage: React.FC = () => {
                     value={newClient.plan}
                     onChange={e => setNewClient({ ...newClient, plan: e.target.value })}
                   >
-                    <option value="30Mb">30Mb</option>
-                    <option value="60MB">60MB</option>
-                    <option value="10MB - ALV">10MB - ALV</option>
-                    <option value="20MB - ALV">20MB - ALV</option>
+                    {plans.map(plan => (
+                      <option key={plan.id} value={plan.name}>{plan.name}</option>
+                    ))}
+                    {plans.length === 0 && <option value="">Nenhum plano cadastrado</option>}
                   </select>
                 </div>
               </div>
@@ -624,7 +636,7 @@ const ClientsPage: React.FC = () => {
                       contact: '',
                       email: '',
                       city: cities.length > 0 ? cities[0].name : '',
-                      plan: '30Mb',
+                      plan: plans.length > 0 ? plans[0].name : '30Mb',
                     });
                   }}
                   className="flex-1 px-6 py-3 border border-slate-200 dark:border-slate-700 rounded-xl font-semibold text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800 transition-all"
