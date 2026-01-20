@@ -11,6 +11,7 @@ const ClientsPage: React.FC = () => {
   const [cities, setCities] = useState<City[]>([]);
   const [plans, setPlans] = useState<Plan[]>([]);
   const [filterCity, setFilterCity] = useState<string>('TODAS');
+  const [filterStatus, setFilterStatus] = useState<string>('TODOS');
   const [selectedClient, setSelectedClient] = useState<Client | null>(null);
   const [clientInvoices, setClientInvoices] = useState<Invoice[]>([]);
   const [isNewClientModalOpen, setIsNewClientModalOpen] = useState(false);
@@ -64,7 +65,7 @@ const ClientsPage: React.FC = () => {
   useEffect(() => {
     fetchClients();
     setCurrentPage(1);
-  }, [filterCity]);
+  }, [filterCity, filterStatus]);
 
   useEffect(() => {
     if (location.state && (location.state as any).openClientId && clients.length > 0) {
@@ -111,6 +112,10 @@ const ClientsPage: React.FC = () => {
 
     if (filterCity !== 'TODAS') {
       query = query.eq('city', filterCity);
+    }
+
+    if (filterStatus !== 'TODOS') {
+      query = query.eq('status', filterStatus);
     }
 
     const { data, error } = await query;
@@ -393,10 +398,15 @@ const ClientsPage: React.FC = () => {
             <input className="w-full pl-9 pr-4 py-2 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg focus:ring-2 focus:ring-primary/20 text-sm transition-all dark:text-white" placeholder="Buscar por nome ou CPF..." type="text" />
           </div>
           <div className="flex items-center gap-2 w-full md:w-auto">
-            <select className="w-full md:w-48 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg py-2 pl-3 pr-10 text-sm focus:ring-2 focus:ring-primary/20 appearance-none cursor-pointer dark:text-white">
-              <option>Todos os Status</option>
-              <option>Ativo</option>
-              <option>Inativo</option>
+            <select
+              value={filterStatus}
+              onChange={(e) => setFilterStatus(e.target.value)}
+              className="w-full md:w-48 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg py-2 pl-3 pr-10 text-sm focus:ring-2 focus:ring-primary/20 appearance-none cursor-pointer dark:text-white"
+            >
+              <option value="TODOS">Todos os Status</option>
+              <option value="ATIVO">Ativo</option>
+              <option value="BLOQUEADO">Bloqueado</option>
+              <option value="DESATIVADO">Desativado</option>
             </select>
           </div>
         </div>
