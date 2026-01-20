@@ -16,6 +16,8 @@ const ClientsPage: React.FC = () => {
   const [isNewClientModalOpen, setIsNewClientModalOpen] = useState(false);
   const [isNewInvoiceModalOpen, setIsNewInvoiceModalOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 10;
 
   // New/Edit client form state
   const [newClient, setNewClient] = useState({
@@ -61,6 +63,7 @@ const ClientsPage: React.FC = () => {
 
   useEffect(() => {
     fetchClients();
+    setCurrentPage(1);
   }, [filterCity]);
 
   useEffect(() => {
@@ -316,6 +319,22 @@ const ClientsPage: React.FC = () => {
     setIsNewClientModalOpen(true);
   };
 
+  // Pagination Logic
+  const indexOfLastClient = currentPage * itemsPerPage;
+  const indexOfFirstClient = indexOfLastClient - itemsPerPage;
+  const currentClients = clients.slice(indexOfFirstClient, indexOfLastClient);
+  const totalPages = Math.ceil(clients.length / itemsPerPage);
+
+  const paginate = (pageNumber: number) => setCurrentPage(pageNumber);
+
+  const nextPage = () => {
+    if (currentPage < totalPages) setCurrentPage(currentPage + 1);
+  };
+
+  const prevPage = () => {
+    if (currentPage > 1) setCurrentPage(currentPage - 1);
+  };
+
   const handleDeleteClient = async (id: string, name: string) => {
     if (!window.confirm(`Tem certeza que deseja excluir o cliente ${name}?`)) return;
 
@@ -404,7 +423,7 @@ const ClientsPage: React.FC = () => {
                   <td colSpan={6} className="px-6 py-10 text-center text-slate-500">Nenhum cliente cadastrado.</td>
                 </tr>
               ) : (
-                clients.map(client => (
+                currentClients.map(client => (
                   <tr key={client.id} onClick={() => setSelectedClient(client)} className="hover:bg-slate-50/50 dark:hover:bg-slate-800/50 transition-colors group cursor-pointer">
                     <td className="px-6 py-4"><span className="font-bold text-slate-700 dark:text-slate-200">{client.name}</span></td>
                     <td className="px-6 py-4 text-sm text-slate-500 dark:text-slate-400">{client.cpf_cnpj}</td>
@@ -448,13 +467,33 @@ const ClientsPage: React.FC = () => {
           </table>
         </div>
         <div className="p-6 border-t border-slate-100 dark:border-slate-800 flex items-center justify-between">
-          <span className="text-xs text-slate-500 dark:text-slate-400">Exibindo 1 a 2 de 2 clientes</span>
+          <span className="text-xs text-slate-500 dark:text-slate-400">
+            Exibindo {indexOfFirstClient + 1} a {Math.min(indexOfLastClient, clients.length)} de {clients.length} clientes
+          </span>
           <div className="flex items-center gap-1">
-            <button className="w-8 h-8 flex items-center justify-center rounded-lg border border-slate-200 dark:border-slate-800 text-slate-400 cursor-not-allowed">
+            <button
+              onClick={prevPage}
+              disabled={currentPage === 1}
+              className={`w-8 h-8 flex items-center justify-center rounded-lg border border-slate-200 dark:border-slate-800 text-slate-400 transition-colors ${currentPage === 1 ? 'cursor-not-allowed opacity-50' : 'hover:bg-slate-50 dark:hover:bg-slate-800 cursor-pointer'}`}
+            >
               <span className="material-icons-round text-sm">chevron_left</span>
             </button>
-            <button className="w-8 h-8 flex items-center justify-center rounded-lg bg-primary text-white font-bold text-xs shadow-md">1</button>
-            <button className="w-8 h-8 flex items-center justify-center rounded-lg border border-slate-200 dark:border-slate-800 text-slate-400 cursor-not-allowed">
+
+            {Array.from({ length: totalPages }, (_, i) => i + 1).map(number => (
+              <button
+                key={number}
+                onClick={() => paginate(number)}
+                className={`w-8 h-8 flex items-center justify-center rounded-lg text-xs font-bold shadow-sm transition-all ${currentPage === number ? 'bg-primary text-white' : 'border border-slate-200 dark:border-slate-800 text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800'}`}
+              >
+                {number}
+              </button>
+            ))}
+
+            <button
+              onClick={nextPage}
+              disabled={currentPage === totalPages || totalPages === 0}
+              className={`w-8 h-8 flex items-center justify-center rounded-lg border border-slate-200 dark:border-slate-800 text-slate-400 transition-colors ${currentPage === totalPages || totalPages === 0 ? 'cursor-not-allowed opacity-50' : 'hover:bg-slate-50 dark:hover:bg-slate-800 cursor-pointer'}`}
+            >
               <span className="material-icons-round text-sm">chevron_right</span>
             </button>
           </div>
