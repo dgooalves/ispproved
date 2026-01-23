@@ -19,6 +19,7 @@ const ClientsPage: React.FC = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 10;
+  const [searchTerm, setSearchTerm] = useState('');
 
   // New/Edit client form state
   const [newClient, setNewClient] = useState({
@@ -325,11 +326,19 @@ const ClientsPage: React.FC = () => {
     setIsNewClientModalOpen(true);
   };
 
+  // Search and Sort Logic
+  const filteredClients = clients
+    .filter(client =>
+      client.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      client.cpf_cnpj.toLowerCase().includes(searchTerm.toLowerCase())
+    )
+    .sort((a, b) => a.name.localeCompare(b.name, 'pt-BR', { sensitivity: 'base' }));
+
   // Pagination Logic
   const indexOfLastClient = currentPage * itemsPerPage;
   const indexOfFirstClient = indexOfLastClient - itemsPerPage;
-  const currentClients = clients.slice(indexOfFirstClient, indexOfLastClient);
-  const totalPages = Math.ceil(clients.length / itemsPerPage);
+  const currentClients = filteredClients.slice(indexOfFirstClient, indexOfLastClient);
+  const totalPages = Math.ceil(filteredClients.length / itemsPerPage);
 
   const paginate = (pageNumber: number) => setCurrentPage(pageNumber);
 
@@ -396,7 +405,16 @@ const ClientsPage: React.FC = () => {
         <div className="p-6 border-b border-slate-100 dark:border-slate-800 flex flex-col md:flex-row justify-between items-center gap-4">
           <div className="relative w-full md:w-80">
             <span className="material-icons-round absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-sm">search</span>
-            <input className="w-full pl-9 pr-4 py-2 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg focus:ring-2 focus:ring-primary/20 text-sm transition-all dark:text-white" placeholder="Buscar por nome ou CPF..." type="text" />
+            <input
+              className="w-full pl-9 pr-4 py-2 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg focus:ring-2 focus:ring-primary/20 text-sm transition-all dark:text-white"
+              placeholder="Buscar por nome ou CPF..."
+              type="text"
+              value={searchTerm}
+              onChange={(e) => {
+                setSearchTerm(e.target.value);
+                setCurrentPage(1);
+              }}
+            />
           </div>
           <div className="flex items-center gap-2 w-full md:w-auto">
             <select
@@ -479,7 +497,7 @@ const ClientsPage: React.FC = () => {
         </div>
         <div className="p-6 border-t border-slate-100 dark:border-slate-800 flex items-center justify-between">
           <span className="text-xs text-slate-500 dark:text-slate-400">
-            Exibindo {indexOfFirstClient + 1} a {Math.min(indexOfLastClient, clients.length)} de {clients.length} clientes
+            Exibindo {indexOfFirstClient + 1} a {Math.min(indexOfLastClient, filteredClients.length)} de {filteredClients.length} clientes
           </span>
           <div className="flex items-center gap-1">
             <button
