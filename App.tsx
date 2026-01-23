@@ -105,6 +105,10 @@ const App: React.FC = () => {
     return <Login />;
   }
 
+  const userEmail = session?.user?.email || 'usuario@exemplo.com';
+  const userName = userEmail.split('@')[0];
+  const userInitial = userEmail.charAt(0).toUpperCase();
+
   return (
     <div className="flex h-screen overflow-hidden">
       {/* Sidebar */}
@@ -118,9 +122,9 @@ const App: React.FC = () => {
 
         <div className="px-4 mb-6">
           <div className="bg-white/10 p-4 rounded-xl flex items-center gap-3">
-            <div className="w-10 h-10 rounded-full bg-orange-500 flex items-center justify-center font-bold text-white">T.</div>
+            <div className="w-10 h-10 rounded-full bg-orange-500 flex items-center justify-center font-bold text-white">{userInitial}.</div>
             <div className="overflow-hidden">
-              <p className="text-sm font-semibold truncate">t.i.diegoalves</p>
+              <p className="text-sm font-semibold truncate">{userName}</p>
               <p className="text-[10px] uppercase tracking-wider text-white/50">Administrador</p>
             </div>
           </div>
@@ -204,8 +208,8 @@ const App: React.FC = () => {
             </button>
             <div className="h-8 w-px bg-slate-200 dark:bg-slate-800"></div>
             <div className="flex items-center gap-3 cursor-pointer group">
-              <div className="w-8 h-8 rounded-full bg-primary flex items-center justify-center text-xs font-bold text-white ring-2 ring-transparent group-hover:ring-primary/20 transition-all">D.</div>
-              <span className="text-sm font-medium hidden sm:block dark:text-slate-300">diegoalves@gmail.com</span>
+              <div className="w-8 h-8 rounded-full bg-primary flex items-center justify-center text-xs font-bold text-white ring-2 ring-transparent group-hover:ring-primary/20 transition-all">{userInitial}.</div>
+              <span className="text-sm font-medium hidden sm:block dark:text-slate-300">{userEmail}</span>
               <span className="material-icons-round text-slate-400">expand_more</span>
             </div>
           </div>
