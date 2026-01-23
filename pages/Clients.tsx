@@ -300,6 +300,7 @@ const ClientsPage: React.FC = () => {
         email: '',
         city: cities.length > 0 ? cities[0].name : '',
         plan: plans.length > 0 ? plans[0].name : '30Mb',
+        status: 'ATIVO',
       });
       fetchClients();
     }
@@ -531,6 +532,7 @@ const ClientsPage: React.FC = () => {
                     email: '',
                     city: cities.length > 0 ? cities[0].name : '',
                     plan: plans.length > 0 ? plans[0].name : '30Mb',
+                    status: 'ATIVO',
                   });
                 }}
                 className="text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 transition-colors"
@@ -686,6 +688,7 @@ const ClientsPage: React.FC = () => {
                       email: '',
                       city: cities.length > 0 ? cities[0].name : '',
                       plan: plans.length > 0 ? plans[0].name : '30Mb',
+                      status: 'ATIVO',
                     });
                   }}
                   className="flex-1 px-6 py-3 border border-slate-200 dark:border-slate-700 rounded-xl font-semibold text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800 transition-all"

@@ -251,7 +251,7 @@ const Dashboard: React.FC = () => {
                   strokeWidth={4}
                   fillOpacity={1}
                   fill="url(#colorRevenue)"
-                  activeDot={{ r: 6, stroke: '#fff', strokeWidth: 3, fill: '#3b82f6', shadow: '0 0 10px rgba(59, 130, 246, 0.5)' }}
+                  activeDot={{ r: 6, stroke: '#fff', strokeWidth: 3, fill: '#3b82f6' }}
                 />
               </AreaChart>
             </ResponsiveContainer>
@@ -265,13 +265,6 @@ const Dashboard: React.FC = () => {
           <div className="h-64 w-full relative">
             <ResponsiveContainer width="100%" height="100%">
               <PieChart>
-                <XAxis
-                  dataKey="name"
-                  axisLine={false}
-                  tickLine={false}
-                  tick={{ fill: '#94a3b8', fontSize: 12 }}
-                  dy={10}
-                />
                 <Pie
                   data={pieData}
                   cx="50%"
