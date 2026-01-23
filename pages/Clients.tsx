@@ -108,7 +108,7 @@ const ClientsPage: React.FC = () => {
 
   const fetchClients = async () => {
     setIsLoading(true);
-    let query = supabase.from('clients').select('*').order('created_at', { ascending: false });
+    let query = supabase.from('clients').select('*').order('name', { ascending: true });
 
     if (filterCity !== 'TODAS') {
       query = query.eq('city', filterCity);
