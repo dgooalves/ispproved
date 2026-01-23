@@ -731,7 +731,15 @@ const ClientsPage: React.FC = () => {
         <div className="fixed inset-0 z-[60] flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm animate-in fade-in duration-300">
           <div className="bg-white dark:bg-slate-900 w-full max-w-6xl max-h-[95vh] lg:max-h-[90vh] overflow-hidden rounded-2xl shadow-2xl flex flex-col">
             <div className="px-8 py-6 border-b border-slate-100 dark:border-slate-800 flex justify-between items-center bg-slate-50/50 dark:bg-slate-800/50">
-              <h3 className="text-2xl font-bold dark:text-white">Detalhes do Cliente</h3>
+              <div className="flex items-center gap-4">
+                <h3 className="text-2xl font-bold dark:text-white">Detalhes do Cliente</h3>
+                <button
+                  onClick={() => handleEditClick(selectedClient)}
+                  className="flex items-center gap-1.5 px-3 py-1 border border-slate-200 dark:border-slate-700 rounded-lg text-xs font-semibold text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors"
+                >
+                  <span className="material-icons-round text-sm">edit</span> Editar
+                </button>
+              </div>
               <button onClick={() => setSelectedClient(null)} className="text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 transition-colors">
                 <span className="material-icons-round">close</span>
               </button>
